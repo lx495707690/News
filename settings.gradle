@@ -1,0 +1,2 @@
+include ':library:library_SlidingMenu'
+include ':topNews'
