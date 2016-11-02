@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
+import com.topnews.LoginActivity;
 import com.topnews.R;
 import com.topnews.SettingsActivity;
-/** 
+import com.topnews.helper.UserInfoManager;
+
+/**
  * 自定义SlidingMenu 测拉菜单类
  * */
 public class DrawerView implements OnClickListener{
@@ -23,13 +26,15 @@ public class DrawerView implements OnClickListener{
 	private SwitchButton night_mode_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
+	private RelativeLayout login_btn;
+	private TextView tvLogin;
 	public DrawerView(Activity activity) {
 		this.activity = activity;
 	}
 
 	public SlidingMenu initSlidingMenu() {
 		localSlidingMenu = new SlidingMenu(activity);
-		localSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置左右滑菜单
+		localSlidingMenu.setMode(SlidingMenu.LEFT);//设置左右滑菜单
 		localSlidingMenu.setTouchModeAbove(SlidingMenu.SLIDING_WINDOW);//设置要使菜单滑动，触碰屏幕的范围
 //		localSlidingMenu.setTouchModeBehind(SlidingMenu.SLIDING_CONTENT);//设置了这个会获取不到菜单里面的焦点，所以先注释掉
 		localSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);//设置阴影图片的宽度
@@ -40,8 +45,8 @@ public class DrawerView implements OnClickListener{
 //		localSlidingMenu.setBehindWidthRes(R.dimen.left_drawer_avatar_size);//设置SlidingMenu菜单的宽度
 		localSlidingMenu.setMenu(R.layout.left_drawer_fragment);//设置menu的布局文件
 //		localSlidingMenu.toggle();//动态判断自动关闭或开启SlidingMenu
-		localSlidingMenu.setSecondaryMenu(R.layout.profile_drawer_right);
-		localSlidingMenu.setSecondaryShadowDrawable(R.drawable.shadowright);
+//		localSlidingMenu.setSecondaryMenu(R.layout.profile_drawer_right);
+//		localSlidingMenu.setSecondaryShadowDrawable(R.drawable.shadowright);
 		localSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
 					public void onOpened() {
 						
@@ -83,6 +88,17 @@ public class DrawerView implements OnClickListener{
 		
 		setting_btn =(RelativeLayout)localSlidingMenu.findViewById(R.id.setting_btn);
 		setting_btn.setOnClickListener(this);
+
+		login_btn =(RelativeLayout)localSlidingMenu.findViewById(R.id.login_btn);
+		login_btn.setOnClickListener(this);
+
+		tvLogin = (TextView) localSlidingMenu.findViewById(R.id.tvLogin);
+
+		if(UserInfoManager.getInstance(activity).getToken() != null){
+			tvLogin.setText(activity.getString(R.string.news_logout));
+		}else{
+			tvLogin.setText(activity.getString(R.string.news_login));
+		}
 	}
 
 	@Override
@@ -92,7 +108,16 @@ public class DrawerView implements OnClickListener{
 			activity.startActivity(new Intent(activity,SettingsActivity.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
-
+		case R.id.login_btn:
+			if(UserInfoManager.getInstance(activity).getToken() != null){
+				UserInfoManager.getInstance(activity).logout();
+				activity.startActivity(new Intent(activity,LoginActivity.class));
+				activity.finish();
+			}else{
+				activity.startActivity(new Intent(activity,LoginActivity.class));
+				activity.finish();
+			}
+			break;
 		default:
 			break;
 		}

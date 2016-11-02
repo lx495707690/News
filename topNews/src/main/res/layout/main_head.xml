@@ -27,7 +27,8 @@
             android:background="@drawable/bg_head"
             android:padding="2.0dip"
             android:src="@drawable/default_round_head"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <TextView
@@ -50,7 +51,8 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:scaleType="centerInside"
-        android:src="@drawable/right_drawer" />
+        android:src="@drawable/right_drawer"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/top_right_count"
@@ -82,7 +84,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/title" />
+                android:src="@drawable/title"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/title"
@@ -93,7 +96,8 @@
                 android:paddingBottom="1.5dip"
                 android:paddingLeft="6.0dip"
                 android:paddingRight="6.0dip"
-                android:visibility="gone" />
+                android:text="内涵段子"
+                />
         </FrameLayout>
 
         <ImageView
@@ -103,7 +107,8 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/title_parent"
             android:padding="3.0dip"
-            android:src="@drawable/refreshicon_titlebar" />
+            android:src="@drawable/refreshicon_titlebar"
+            android:visibility="gone"/>
 
         <ProgressBar
             android:id="@+id/top_progress"
@@ -115,7 +120,8 @@
             android:indeterminateOnly="true"
             android:minHeight="13.0dip"
             android:minWidth="13.0dip"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            />
 
         <ProgressBar
             android:id="@+id/top_progress_night"

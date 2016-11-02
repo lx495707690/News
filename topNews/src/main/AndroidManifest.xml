@@ -35,6 +35,10 @@
         </activity>
         <activity android:name="com.topnews.ImageShowActivity" >
         </activity>
+        <activity android:name="com.topnews.LoginActivity" >
+        </activity>
+        <activity android:name="com.topnews.SignUpActivity" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

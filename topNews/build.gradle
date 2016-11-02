@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.topnews"
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 18
     }
 
@@ -22,4 +22,6 @@ dependencies {
     compile project(':library:library_SlidingMenu')
     compile files('libs/jsoup-1.7.2.jar')
     compile files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
+
+    compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 }

@@ -279,14 +279,15 @@
             <ImageView style="@style/left_drawer_item_line" />
 
             <RelativeLayout
-                android:id="@+id/appstore_btn"
+                android:id="@+id/login_btn"
                 style="@style/left_drawer_item_layout"
                 android:visibility="visible" >
 
                 <TextView
+                    android:id="@+id/tvLogin"
                     style="@style/left_drawer_item_text"
                     android:drawableLeft="@drawable/ic_drawer_appstore"
-                    android:text="@string/left_drawer_item_appstore" />
+                    android:text="@string/news_login" />
             </RelativeLayout>
 
             <ImageView

@@ -59,4 +59,16 @@
     <string name="city_category_list_notify_no_city">请先选择您关注的城市</string>
     <string name="retry_large_image"><u>加载失败，点击重试</u></string>
 
+
+    ////////////
+    <string name="news_login">登录</string>
+    <string name="news_logout">登出</string>
+    <string name="news_account">用户名</string>
+    <string name="news_pwd">密码</string>
+    <string name="news_signup">注册</string>
+    <string name="news_mobile">电话</string>
+    <string name="news_name">姓名</string>
+    <string name="news_loading">加载...</string>
+    <string name="news_login_success">登录成功</string>
+    <string name="news_login_failed">登录失败</string>
 </resources>
