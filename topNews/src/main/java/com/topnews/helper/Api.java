@@ -7,4 +7,9 @@ public class Api {
 
 	public static final String API_LOGIN = BASE_URL +"Account/Login";
 	public static final String API_SIGNUP = BASE_URL +"Account/Register";
+
+	public static final String API_TEXT_NEWS = BASE_URL +"ArticleJoke/Listing";
+	public static final String API_IMAGE_NEWS = BASE_URL +"ArticlePic/Listing";
+
+	public static final String API_ZAN = BASE_URL +"click/add";
 }

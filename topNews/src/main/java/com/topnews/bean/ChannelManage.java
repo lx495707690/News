@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.topnews.dao.ChannelDao;
 import com.topnews.db.SQLHelper;
+import com.topnews.helper.Constants;
 
 import android.database.SQLException;
 import android.util.Log;
@@ -26,25 +27,25 @@ public class ChannelManage {
 	static {
 		defaultUserChannels = new ArrayList<ChannelItem>();
 		defaultOtherChannels = new ArrayList<ChannelItem>();
-		defaultUserChannels.add(new ChannelItem(1, "推荐", 1, 1));
-		defaultUserChannels.add(new ChannelItem(2, "热点", 2, 1));
-		defaultUserChannels.add(new ChannelItem(3, "杭州", 3, 1));
-		defaultUserChannels.add(new ChannelItem(4, "时尚", 4, 1));
-		defaultUserChannels.add(new ChannelItem(5, "科技", 5, 1));
-		defaultUserChannels.add(new ChannelItem(6, "体育", 6, 1));
-		defaultUserChannels.add(new ChannelItem(7, "军事", 7, 1));
-		defaultOtherChannels.add(new ChannelItem(8, "财经", 1, 0));
-		defaultOtherChannels.add(new ChannelItem(9, "汽车", 2, 0));
-		defaultOtherChannels.add(new ChannelItem(10, "房产", 3, 0));
-		defaultOtherChannels.add(new ChannelItem(11, "社会", 4, 0));
-		defaultOtherChannels.add(new ChannelItem(12, "情感", 5, 0));
-		defaultOtherChannels.add(new ChannelItem(13, "女人", 6, 0));
-		defaultOtherChannels.add(new ChannelItem(14, "旅游", 7, 0));
-		defaultOtherChannels.add(new ChannelItem(15, "健康", 8, 0));
-		defaultOtherChannels.add(new ChannelItem(16, "美女", 9, 0));
-		defaultOtherChannels.add(new ChannelItem(17, "游戏", 10, 0));
-		defaultOtherChannels.add(new ChannelItem(18, "数码", 11, 0));
-		defaultUserChannels.add(new ChannelItem(19, "娱乐", 12, 0));
+		defaultUserChannels.add(new ChannelItem(1, "段子", 1, 1, Constants.NEWS_TYPE_TEXT));
+		defaultUserChannels.add(new ChannelItem(2, "图片", 2, 1, Constants.NEWS_TYPE_IMAGE));
+//		defaultUserChannels.add(new ChannelItem(3, "杭州", 3, 1));
+//		defaultUserChannels.add(new ChannelItem(4, "时尚", 4, 1));
+//		defaultUserChannels.add(new ChannelItem(5, "科技", 5, 1));
+//		defaultUserChannels.add(new ChannelItem(6, "体育", 6, 1));
+//		defaultUserChannels.add(new ChannelItem(7, "军事", 7, 1));
+//		defaultOtherChannels.add(new ChannelItem(8, "财经", 1, 0));
+//		defaultOtherChannels.add(new ChannelItem(9, "汽车", 2, 0));
+//		defaultOtherChannels.add(new ChannelItem(10, "房产", 3, 0));
+//		defaultOtherChannels.add(new ChannelItem(11, "社会", 4, 0));
+//		defaultOtherChannels.add(new ChannelItem(12, "情感", 5, 0));
+//		defaultOtherChannels.add(new ChannelItem(13, "女人", 6, 0));
+//		defaultOtherChannels.add(new ChannelItem(14, "旅游", 7, 0));
+//		defaultOtherChannels.add(new ChannelItem(15, "健康", 8, 0));
+//		defaultOtherChannels.add(new ChannelItem(16, "美女", 9, 0));
+//		defaultOtherChannels.add(new ChannelItem(17, "游戏", 10, 0));
+//		defaultOtherChannels.add(new ChannelItem(18, "数码", 11, 0));
+//		defaultUserChannels.add(new ChannelItem(19, "娱乐", 12, 0));
 	}
 
 	private ChannelManage(SQLHelper paramDBHelper) throws SQLException {
@@ -76,23 +77,23 @@ public class ChannelManage {
 	 * @return 数据库存在用户配置 ? 数据库内的用户选择频道 : 默认用户选择频道 ;
 	 */
 	public List<ChannelItem> getUserChannel() {
-		Object cacheList = channelDao.listCache(SQLHelper.SELECTED + "= ?",new String[] { "1" });
-		if (cacheList != null && !((List) cacheList).isEmpty()) {
-			userExist = true;
-			List<Map<String, String>> maplist = (List) cacheList;
-			int count = maplist.size();
-			List<ChannelItem> list = new ArrayList<ChannelItem>();
-			for (int i = 0; i < count; i++) {
-				ChannelItem navigate = new ChannelItem();
-				navigate.setId(Integer.valueOf(maplist.get(i).get(SQLHelper.ID)));
-				navigate.setName(maplist.get(i).get(SQLHelper.NAME));
-				navigate.setOrderId(Integer.valueOf(maplist.get(i).get(SQLHelper.ORDERID)));
-				navigate.setSelected(Integer.valueOf(maplist.get(i).get(SQLHelper.SELECTED)));
-				list.add(navigate);
-			}
-			return list;
-		}
-		initDefaultChannel();
+//		Object cacheList = channelDao.listCache(SQLHelper.SELECTED + "= ?",new String[] { "1" });
+//		if (cacheList != null && !((List) cacheList).isEmpty()) {
+//			userExist = true;
+//			List<Map<String, String>> maplist = (List) cacheList;
+//			int count = maplist.size();
+//			List<ChannelItem> list = new ArrayList<ChannelItem>();
+//			for (int i = 0; i < count; i++) {
+//				ChannelItem navigate = new ChannelItem();
+//				navigate.setId(Integer.valueOf(maplist.get(i).get(SQLHelper.ID)));
+//				navigate.setName(maplist.get(i).get(SQLHelper.NAME));
+//				navigate.setOrderId(Integer.valueOf(maplist.get(i).get(SQLHelper.ORDERID)));
+//				navigate.setSelected(Integer.valueOf(maplist.get(i).get(SQLHelper.SELECTED)));
+//				list.add(navigate);
+//			}
+//			return list;
+//		}
+//		initDefaultChannel();
 		return defaultUserChannels;
 	}
 	

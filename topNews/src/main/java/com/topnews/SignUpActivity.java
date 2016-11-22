@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.topnews.helper.Api;
 import com.topnews.helper.ApiService;
 import com.topnews.helper.Constants;
@@ -19,7 +20,7 @@ public class SignUpActivity extends Activity {
 	private EditText etAccount;
 	private EditText etPWD;
 	private EditText etName;
-	private Button btnSignUp;
+	private ActionProcessButton btnSignUp;
 
 
 	View v;
@@ -38,7 +39,7 @@ public class SignUpActivity extends Activity {
 		etAccount = (EditText) v.findViewById(R.id.etAccount);
 		etPWD     = (EditText) v.findViewById(R.id.etPWD);
 		etName    = (EditText) v.findViewById(R.id.etName);
-		btnSignUp = (Button) v.findViewById(R.id.btnSignUp);
+		btnSignUp = (ActionProcessButton) v.findViewById(R.id.btnSignUp);
 	}
 
 	private void setListener(){
@@ -64,7 +65,10 @@ public class SignUpActivity extends Activity {
 				// TODO Auto-generated method stub
 				try {
 					if (json.getInt(Keys.CODE) == 1) {
+						btnSignUp.setProgress(100);
 						finish();
+					}else{
+						btnSignUp.setProgress(-1);
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -75,13 +79,15 @@ public class SignUpActivity extends Activity {
 			@Override
 			public void OnPreExecute() {
 				// TODO Auto-generated method stub
+				btnSignUp.setMode(ActionProcessButton.Mode.ENDLESS);
+				btnSignUp.setProgress(1);
 
 			}
 
 			@Override
 			public void OnFailed() {
 				// TODO Auto-generated method stub
-
+				btnSignUp.setProgress(-1);
 			}
 
 		});

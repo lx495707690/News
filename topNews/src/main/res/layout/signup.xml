@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    >
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <include layout="@layout/main_head" />
 
@@ -38,15 +38,23 @@
         android:layout_marginLeft="20dp"
         android:hint="@string/news_name"/>
 
-    <Button
+    <com.dd.processbutton.iml.ActionProcessButton
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="@string/news_signup"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:background="#ffcc3131"
+        android:text="@string/news_signup"
+        android:textSize="18sp"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="@string/news_signup_success"
+        custom:pb_textProgress="@string/news_loading"
+        custom:pb_textError="@string/news_signup_failed"
+        custom:pb_colorError="@color/red_error"
         android:textColor="@color/white"/>
 
 </LinearLayout>

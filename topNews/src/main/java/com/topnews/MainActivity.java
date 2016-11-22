@@ -8,6 +8,8 @@ import com.topnews.app.AppApplication;
 import com.topnews.bean.ChannelItem;
 import com.topnews.bean.ChannelManage;
 import com.topnews.fragment.NewsFragment;
+import com.topnews.fragment.NewsFragmentNew;
+import com.topnews.helper.Keys;
 import com.topnews.tool.BaseTools;
 import com.topnews.tool.Constants;
 import com.topnews.view.ColumnHorizontalScrollView;
@@ -222,11 +224,10 @@ public class MainActivity extends FragmentActivity {
 		int count =  userChannelList.size();
 		for(int i = 0; i< count;i++){
 			Bundle data = new Bundle();
-    		data.putString("text", userChannelList.get(i).getName());
-    		data.putInt("id", userChannelList.get(i).getId());
-			NewsFragment newfragment = new NewsFragment();
-			newfragment.setArguments(data);
-			fragments.add(newfragment);
+    		data.putString(Keys.NEWS_TYPE, userChannelList.get(i).getType());
+			NewsFragmentNew newsFragmentNew = new NewsFragmentNew();
+			newsFragmentNew.setArguments(data);
+			fragments.add(newsFragmentNew);
 		}
 		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
 //		mViewPager.setOffscreenPageLimit(0);

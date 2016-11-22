@@ -27,6 +27,8 @@ public class ChannelItem implements Serializable {
 	 *  */
 	public Integer selected;
 
+	public String type;
+
 	public ChannelItem() {
 	}
 
@@ -35,6 +37,14 @@ public class ChannelItem implements Serializable {
 		this.name = name;
 		this.orderId = Integer.valueOf(orderId);
 		this.selected = Integer.valueOf(selected);
+	}
+
+	public ChannelItem(int id, String name, int orderId,int selected, String type) {
+		this.id = Integer.valueOf(id);
+		this.name = name;
+		this.orderId = Integer.valueOf(orderId);
+		this.selected = Integer.valueOf(selected);
+		this.type = type;
 	}
 
 	public int getId() {
@@ -72,5 +82,13 @@ public class ChannelItem implements Serializable {
 	public String toString() {
 		return "ChannelItem [id=" + this.id + ", name=" + this.name
 				+ ", selected=" + this.selected + "]";
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

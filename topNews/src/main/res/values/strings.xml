@@ -71,4 +71,7 @@
     <string name="news_loading">加载...</string>
     <string name="news_login_success">登录成功</string>
     <string name="news_login_failed">登录失败</string>
+    <string name="news_signup_success">注册成功</string>
+    <string name="news_signup_failed">注册失败</string>
+
 </resources>

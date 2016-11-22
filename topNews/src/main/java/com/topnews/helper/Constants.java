@@ -125,4 +125,9 @@ public class Constants {
 		ImageUploadTypeCEAForm5,
 		ImageUploadTypeLOC
 	}
+
+
+	public static String NEWS_TYPE_TEXT  = "text";
+	public static String NEWS_TYPE_IMAGE = "image";
+	public static String NEWS_TYPE_AD    = "ad";
 }
