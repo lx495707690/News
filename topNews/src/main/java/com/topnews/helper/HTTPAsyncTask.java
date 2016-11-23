@@ -9,16 +9,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import com.topnews.bean.Response;
@@ -36,7 +40,9 @@ public abstract class HTTPAsyncTask extends AsyncTask<String, Void, Response> {
 	private ArrayList<LinkedHashMap<String,String>> fileParams = new ArrayList<LinkedHashMap<String, String>>();
 	private LinkedHashMap<String,byte[]> bytesParams = new LinkedHashMap<String,byte[]>();
 //	private String encoding = "ISO-8859-1";
-	
+
+	public String token;
+
 	protected abstract void onPreExecute();
 	protected abstract void onPostExecute(Response response);
 	
@@ -165,6 +171,8 @@ public abstract class HTTPAsyncTask extends AsyncTask<String, Void, Response> {
 			
 			conn.setConnectTimeout(Constants.TIMEOUT);
 			conn.setReadTimeout(Constants.TIMEOUT);
+
+			conn.setRequestProperty("token",token);
 			
 			if(this.method.equalsIgnoreCase(Constants.POST)){
 				//post data to server
@@ -300,5 +308,4 @@ public abstract class HTTPAsyncTask extends AsyncTask<String, Void, Response> {
 		
 
 	}
-
 }

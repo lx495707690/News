@@ -8,7 +8,7 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/ll_pop_speech"
+        android:id="@+id/llLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/dislike_bg"
@@ -23,10 +23,10 @@
             style="@style/dislike_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/listpage_more_speech"
+            android:drawableLeft="@drawable/listpage_more_like"
             android:drawablePadding="4.0dip"
             android:duplicateParentState="true"
-            android:text="@string/dislike_dlg_lable_speech" />
+            android:text="@string/news_zan" />
     </LinearLayout>
 
     <ImageView
@@ -44,7 +44,8 @@
         android:gravity="center"
         android:minHeight="36.0dip"
         android:minWidth="90.0dip"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_pop_favor"
@@ -63,7 +64,7 @@
         android:background="@drawable/dislike_line" />
 
     <LinearLayout
-        android:id="@+id/ll_pop_dislike"
+        android:id="@+id/llDislike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/dislike_bg"
@@ -81,7 +82,7 @@
             android:drawableLeft="@drawable/listpage_more_dislike"
             android:drawablePadding="4.0dip"
             android:duplicateParentState="true"
-            android:text="不感兴趣" />
+            android:text="@string/news_cai" />
     </LinearLayout>
 
     <ImageView

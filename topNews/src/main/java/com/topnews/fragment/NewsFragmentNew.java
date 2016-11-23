@@ -1,5 +1,7 @@
 package com.topnews.fragment;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+import io.saeid.fabloading.LoadingView;
+
 public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollListener{
 
 	private View v;
@@ -30,6 +34,8 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 	private ArrayList<NewsEntityNew> newsList = new ArrayList<NewsEntityNew>();
 
 	private PullToRefreshView mPullToRefreshView;
+
+	private LoadingView mLoadingView;
 
 	private String newsType = Constants.NEWS_TYPE_TEXT;
 
@@ -57,6 +63,26 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 	}
 
 	private void initView(){
+
+		mLoadingView = (LoadingView) v.findViewById(R.id.loading_view);
+
+//		boolean isLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+		boolean isLollipop = false;
+		int marvel_1 = isLollipop ? R.drawable.marvel_1_lollipop : R.drawable.marvel_1;
+		int marvel_2 = isLollipop ? R.drawable.marvel_2_lollipop : R.drawable.marvel_2;
+		int marvel_3 = isLollipop ? R.drawable.marvel_3_lollipop : R.drawable.marvel_3;
+		int marvel_4 = isLollipop ? R.drawable.marvel_4_lollipop : R.drawable.marvel_4;
+		mLoadingView.addAnimation(Color.parseColor("#FFD200"), marvel_1,
+				LoadingView.FROM_LEFT);
+		mLoadingView.addAnimation(Color.parseColor("#2F5DA9"), marvel_2,
+				LoadingView.FROM_TOP);
+		mLoadingView.addAnimation(Color.parseColor("#FF4218"), marvel_3,
+				LoadingView.FROM_RIGHT);
+		mLoadingView.addAnimation(Color.parseColor("#C7E7FB"), marvel_4,
+				LoadingView.FROM_BOTTOM);
+
+		mLoadingView.startAnimation();
+
 		lvNews = (NewsListView) v.findViewById(R.id.lvNews);
 		lvNews.setOnScrollListener(this);
 
@@ -97,13 +123,14 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 
 				mPullToRefreshView.setRefreshing(false);
 				lvNews.removeFooterView(footer);
-
+				mLoadingView.pauseAnimation();
+				mLoadingView.setVisibility(View.GONE);
 				try {
 					if (json.getInt(Keys.CODE) == 1) {
 
 						ArrayList<NewsEntityNew> newsListTemp = new ArrayList<NewsEntityNew>();
 
-						newsListTemp = Convert.convertToNewsList(json.getJSONObject(Keys.DATA).getJSONArray(Keys.DATA));
+						newsListTemp = Convert.convertToNewsList(json.getJSONObject(Keys.DATA).getJSONArray(Keys.DATA),newsType);
 
 						if(newsListTemp.size() > 0){
 							newsList.addAll(newsListTemp);

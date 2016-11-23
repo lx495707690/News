@@ -18,4 +18,13 @@ public class Keys {
 	public static final String TITLE = "title";
 	public static final String PAGE = "page";
 	public static final String PER_PAGE = "per_page";
+	public static final String CLICK_UP = "click_up";
+	public static final String CLICK_DOWN = "click_down";
+	public static final String COMMENT_NUM = "comment_num";
+	public static final String ARTICLE_ID = "article_id";
+	public static final String CLICK_TYPE = "click_type";
+	public static final String CLICK_VALUE = "click_value";
+	public static final String MSG = "msg";
+	public static final String NAME = "name";
+	public static final String ARTICLE_TYPE = "article_type";
 }

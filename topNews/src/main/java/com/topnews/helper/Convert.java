@@ -14,13 +14,20 @@ import java.util.ArrayList;
 
 public class Convert {
 
-    public static ArrayList<NewsEntityNew> convertToNewsList(JSONArray data){
+    public static ArrayList<NewsEntityNew> convertToNewsList(JSONArray data,String newsType){
         ArrayList<NewsEntityNew> newsList = new ArrayList<NewsEntityNew>();
 
         for (int i = 0; i < data.length(); i ++){
             try {
                 JSONObject newsJson = data.getJSONObject(i);
                 NewsEntityNew news = new NewsEntityNew();
+
+                if(newsType.equals(Constants.NEWS_TYPE_TEXT)){
+                    news.setType("text");
+                }else{
+                    news.setType("image");
+                }
+
 
                 if(!newsJson.isNull(Keys.ID)){
                     news.setId(newsJson.getString(Keys.ID));
@@ -42,6 +49,18 @@ public class Convert {
                     news.setStatus(newsJson.getString(Keys.STATUS));
                 }
 
+                if(!newsJson.isNull(Keys.CLICK_UP)){
+                    news.setZan(newsJson.getInt(Keys.CLICK_UP));
+                }
+
+                if(!newsJson.isNull(Keys.CLICK_DOWN)){
+                    news.setCai(newsJson.getInt(Keys.CLICK_DOWN));
+                }
+
+                if(!newsJson.isNull(Keys.COMMENT_NUM)){
+                    news.setCommentNum(newsJson.getInt(Keys.COMMENT_NUM));
+                }
+
 //                if(!newsJson.isNull(Keys.NEWS_TYPE)){
                 if(!newsJson.isNull(Keys.TITLE)){
 //                    news.setType(newsJson.getString(Keys.NEWS_TYPE));
@@ -51,7 +70,7 @@ public class Convert {
                         ArrayList<String> imageUrls = new ArrayList<String>();
                         JSONArray urls = new JSONArray(news.getBody());
                         for (int j = 0; j < urls.length(); j++){
-                            imageUrls.add(urls.getString(j));
+                            imageUrls.add("http://top-news.oss-cn-shanghai.aliyuncs.com/" + urls.getString(j));
                         }
                         news.setImageUrls(imageUrls);
 

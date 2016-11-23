@@ -35,10 +35,120 @@ public class Helper {
 	private static final String DAY_AGO = "day ago";
 	private static final String DAYS_AGO = "days ago";
 
+
+	private static final String MIN_LEFT = "min left.";
+	private static final String MINS_LEFT = "mins left.";
+	private static final String HOUR_LEFT = "hour left.";
+	private static final String HOURS_LEFT = "hours left.";
+	private static final String DAY_TO_GO = "day to go.";
+	private static final String DAYS_TO_GO = "days to go.";
+
 	private static Point mScreenSize;
 
 	public static String getAndroidId(Context ctx) {
 		return "01-01-" + getId(ctx);
+	}
+
+	/**
+	 * Use calcTimeDiff(Date, Context)
+	 *
+	 * @param target
+	 * @return
+	 */
+	public static String calcTimeDiff(Date target) {
+		if (target == null) { return null; }
+		Calendar calendar1 = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+
+		calendar1.setTime(target);
+
+		long milsecs1 = calendar1.getTimeInMillis();
+		long milsecs2 = calendar2.getTimeInMillis();
+
+		long diff = milsecs2 - milsecs1;
+		long dminutes = diff / (60 * 1000);
+		long dhours = diff / (60 * 60 * 1000);
+		long ddays = diff / (24 * 60 * 60 * 1000);
+
+		String toReturn = "";
+		if (diff >= 0) {
+			// In the past
+			if (dminutes < 60) {
+				toReturn = String.valueOf(dminutes);
+				if (dminutes == 1) {
+					toReturn += " " + MIN_AGO;
+				}
+				else {
+					toReturn += " " + MINS_AGO;
+				}
+			}
+			else if (dhours < 24) {
+				toReturn = String.valueOf(dhours);
+				if (dhours == 1) {
+					toReturn += " " + HOUR_AGO;
+				}
+				else {
+					toReturn += " " + HOURS_AGO;
+				}
+			}
+			else if (ddays <= 7) {
+				toReturn = String.valueOf(ddays);
+				if (ddays == 1) {
+					toReturn += " " + DAY_AGO;
+				}
+				else {
+					toReturn += " " + DAYS_AGO;
+				}
+			}
+			else {
+				toReturn = formatDate(target, "dd MMM yyy");
+			}
+		}
+		else {
+			// In the future
+			diff *= -1;
+			dminutes *= -1;
+			dhours *= -1;
+			ddays *= -1;
+			if (dminutes < 60) {
+				toReturn = String.valueOf(dminutes);
+				if (dminutes == 1) {
+					toReturn += " " + MIN_LEFT;
+				}
+				else {
+					toReturn += " " + MINS_LEFT;
+				}
+			}
+			else if (dhours < 24) {
+				toReturn = String.valueOf(dhours);
+				if (dhours == 1) {
+					toReturn += " " + HOUR_LEFT;
+				}
+				else {
+					toReturn += " " + HOURS_LEFT;
+				}
+			}
+			else if (ddays <= 7) {
+				toReturn = String.valueOf(ddays);
+				if (ddays == 1) {
+					toReturn += " " + DAY_TO_GO;
+				}
+				else {
+					toReturn += " " + DAYS_TO_GO;
+				}
+			}
+			else {
+				toReturn = formatDate(target, "dd MMM yyy");
+			}
+		}
+		return toReturn;
+	}
+
+	public static String formatDate(Date date, String format) {
+		SimpleDateFormat postFormater = new SimpleDateFormat(format, Locale.ENGLISH);
+
+		String newDateStr = postFormater.format(date);
+		return newDateStr;
 	}
 
 	public static int getCacheSize() {

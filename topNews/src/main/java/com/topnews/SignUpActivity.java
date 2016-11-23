@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.topnews.helper.Api;
@@ -56,7 +57,7 @@ public class SignUpActivity extends Activity {
 
 		as.setPostParams(Keys.MOBILE, etAccount.getText().toString().trim());
 		as.setPostParams(Keys.PASSWORD, etPWD.getText().toString().trim());
-		as.setPostParams(Keys.FULL_NAME, etName.getText().toString().trim());
+		as.setPostParams(Keys.NAME, etName.getText().toString().trim());
 		as.setMethod(Constants.POST);
 		as.execute(new ApiService.OnServiceListener() {
 
@@ -69,6 +70,7 @@ public class SignUpActivity extends Activity {
 						finish();
 					}else{
 						btnSignUp.setProgress(-1);
+						Toast.makeText(SignUpActivity.this,json.getString(Keys.MSG),Toast.LENGTH_SHORT).show();
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

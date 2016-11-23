@@ -73,5 +73,8 @@
     <string name="news_login_failed">登录失败</string>
     <string name="news_signup_success">注册成功</string>
     <string name="news_signup_failed">注册失败</string>
+    <string name="news_zan">赞</string>
+    <string name="news_cai">踩</string>
+    <string name="news_comment">评论</string>
 
 </resources>

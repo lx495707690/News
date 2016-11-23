@@ -20,6 +20,10 @@ public class ApiService extends HTTPAsyncTask{
 		this.setUrl(apiUrl);
 	}
 
+	public void setToken(String token){
+		this.token = token;
+	}
+
 	public ApiService(String apiUrl)
 	{
 		this.setMethod(Constants.GET);

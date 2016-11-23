@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
 						btnLogin.setProgress(100);
 						JSONObject data = json.getJSONObject(Keys.DATA);
 						String mobile = data.getString(Keys.MOBILE);
-						String fullName = data.getString(Keys.FULL_NAME);
+						String fullName = data.getString(Keys.NAME);
 						String role = data.getString(Keys.ROLE);
 						String token = data.getString(Keys.TOKEN);
 

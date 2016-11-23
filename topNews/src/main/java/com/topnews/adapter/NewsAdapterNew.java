@@ -14,15 +14,26 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.topnews.R;
 import com.topnews.bean.NewsEntityNew;
+import com.topnews.helper.Api;
+import com.topnews.helper.ApiService;
+import com.topnews.helper.Convert;
 import com.topnews.helper.Helper;
+import com.topnews.helper.Keys;
+import com.topnews.helper.UserInfoManager;
 import com.topnews.tool.Constants;
 import com.topnews.tool.Options;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsAdapterNew extends BaseAdapter {
@@ -33,6 +44,8 @@ public class NewsAdapterNew extends BaseAdapter {
 	/** 弹出的更多选择框  */
 	private PopupWindow popupWindow;
 	DisplayImageOptions options;
+
+	private int currentPostion;
 
 	public NewsAdapterNew(Context ctx, ArrayList<NewsEntityNew> newsList) {
 		this.ctx = ctx;
@@ -73,7 +86,8 @@ public class NewsAdapterNew extends BaseAdapter {
 			mHolder.item_layout = (LinearLayout)view.findViewById(R.id.item_layout);
 			mHolder.comment_layout = (RelativeLayout)view.findViewById(R.id.comment_layout);
 			mHolder.item_title = (TextView)view.findViewById(R.id.item_title);
-			mHolder.item_source = (TextView)view.findViewById(R.id.item_source);
+			mHolder.item_zan = (TextView)view.findViewById(R.id.item_zan);
+			mHolder.item_cai = (TextView)view.findViewById(R.id.item_cai);
 			mHolder.list_item_local = (TextView)view.findViewById(R.id.list_item_local);
 			mHolder.comment_count = (TextView)view.findViewById(R.id.comment_count);
 			mHolder.publish_time = (TextView)view.findViewById(R.id.publish_time);
@@ -105,9 +119,12 @@ public class NewsAdapterNew extends BaseAdapter {
 			mHolder.item_title.setText(news.getTitle());
 		}
 
-		mHolder.item_source.setText("手机腾讯网");
-		mHolder.comment_count.setText("评论 101");
-		mHolder.publish_time.setText("1小时前");
+		mHolder.item_zan.setText(ctx.getString(R.string.news_zan) + " (" + news.getZan() + ")  ");
+		mHolder.item_cai.setText(ctx.getString(R.string.news_cai) + " (" + news.getCai() + ")");
+		mHolder.comment_count.setText(ctx.getString(R.string.news_comment) + " " + news.getCommentNum());
+
+		java.util.Date d = new Date(Long.parseLong(news.getDate()) * 1000);
+		mHolder.publish_time.setText(Helper.calcTimeDiff(d));
 
 		List<String> imgUrlList = news.getImageUrls();
 		mHolder.popicon.setVisibility(View.VISIBLE);
@@ -189,8 +206,10 @@ public class NewsAdapterNew extends BaseAdapter {
 		LinearLayout item_layout;
 		//title
 		TextView item_title;
-		//图片源
-		TextView item_source;
+		//赞
+		TextView item_zan;
+		//踩
+		TextView item_cai;
 		//类似推广之类的标签
 		TextView list_item_local;
 		//评论数量
@@ -253,6 +272,28 @@ public class NewsAdapterNew extends BaseAdapter {
 	 * */
 	private void initPopWindow() {
 		View popView = LayoutInflater.from(ctx).inflate(R.layout.list_item_pop, null);
+
+		LinearLayout llLike = (LinearLayout) popView.findViewById(R.id.llLike);
+		LinearLayout llDislike = (LinearLayout) popView.findViewById(R.id.llDislike);
+
+		llLike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popupWindow.dismiss();
+				newsList.get(currentPostion).setZan(newsList.get(currentPostion).getZan() + 1);
+				like(1);
+			}
+		});
+
+		llDislike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popupWindow.dismiss();
+				newsList.get(currentPostion).setZan(newsList.get(currentPostion).getCai() + 1);
+				like(2);
+			}
+		});
+
 		popupWindow = new PopupWindow(popView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		popupWindow.setBackgroundDrawable(new ColorDrawable(0));
 		//设置popwindow出现和消失动画
@@ -274,6 +315,9 @@ public class NewsAdapterNew extends BaseAdapter {
 		if (popupWindow.isShowing()) {
 			
 		}
+
+		currentPostion = postion;
+
 		btn_pop_close.setOnClickListener(new OnClickListener() {
 			public void onClick(View paramView) {
 				popupWindow.dismiss();
@@ -298,5 +342,48 @@ public class NewsAdapterNew extends BaseAdapter {
 	        int y = arrayOfInt[1];
 	        showPop(v, x , y, position);
 		}
+	}
+
+	private void like(int type){  //zan :1  ,  cai : 2
+
+		if(UserInfoManager.getInstance(ctx).getToken() == null){
+			Toast.makeText(ctx,"请登录.",Toast.LENGTH_SHORT).show();
+		}
+
+		ApiService as = new ApiService(Api.API_ZAN);
+		as.setMethod(com.topnews.helper.Constants.POST);
+		as.setToken(UserInfoManager.getInstance(ctx).getToken());
+		as.setPostParams(Keys.ARTICLE_ID,newsList.get(currentPostion).getId());
+		as.setPostParams(Keys.CLICK_TYPE,1 + "");
+		as.setPostParams(Keys.CLICK_VALUE,type + "");
+		as.setPostParams(Keys.ARTICLE_TYPE,"text");
+		as.execute(new ApiService.OnServiceListener() {
+
+			@Override
+			public void onReceivedData(JSONObject json) {
+				// TODO Auto-generated method stub
+				try {
+					if (json.getInt(Keys.CODE) == 1) {
+						notifyDataSetChanged();
+					}else{
+						Toast.makeText(ctx,json.getString(Keys.MSG),Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void OnPreExecute() {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void OnFailed() {
+				// TODO Auto-generated method stub
+			}
+
+		});
 	}
 }

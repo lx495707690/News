@@ -14,6 +14,9 @@ public class NewsEntityNew implements Serializable {
 	private String type;
 	private ArrayList<String> imageUrls = new ArrayList<String>();
 	private boolean isLarge = false;
+	private int zan; //赞的数量
+	private int cai;//踩的数量
+	private int commentNum;//评论的数量
 
 	public String getId() {
 		return id;
@@ -85,6 +88,30 @@ public class NewsEntityNew implements Serializable {
 
 	public void setImageUrls(ArrayList<String> imageUrls) {
 		this.imageUrls = imageUrls;
+	}
+
+	public int getZan() {
+		return zan;
+	}
+
+	public void setZan(int zan) {
+		this.zan = zan;
+	}
+
+	public int getCai() {
+		return cai;
+	}
+
+	public void setCai(int cai) {
+		this.cai = cai;
+	}
+
+	public int getCommentNum() {
+		return commentNum;
+	}
+
+	public void setCommentNum(int commentNum) {
+		this.commentNum = commentNum;
 	}
 }
 
