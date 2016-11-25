@@ -51,7 +51,7 @@ public class Welcome extends Activity {
 	}
 
 	private void redirectTo() {
-		startActivity(new Intent(getApplicationContext(), MainActivity.class));
+		startActivity(new Intent(getApplicationContext(), MainActivityNew.class));
 		finish();
 	}
 }

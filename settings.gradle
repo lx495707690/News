@@ -1,2 +1,3 @@
 include ':library:library_SlidingMenu'
+include ':library:slide_bottomnavigationbar_lib'
 include ':topNews'
