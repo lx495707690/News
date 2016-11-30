@@ -27,4 +27,7 @@ public class Keys {
 	public static final String MSG = "msg";
 	public static final String NAME = "name";
 	public static final String ARTICLE_TYPE = "article_type";
+	public static final String NEWS = "news";
+	public static final String CONTENT = "content";
+	public static final String IS_GOOD = "is_good";
 }

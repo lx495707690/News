@@ -1,6 +1,7 @@
 package com.topnews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.topnews.LoginActivity;
+import com.topnews.MainActivityNew;
 import com.topnews.R;
 import com.topnews.bean.NewsEntityNew;
 import com.topnews.helper.Api;
@@ -347,7 +350,8 @@ public class NewsAdapterNew extends BaseAdapter {
 	private void like(int type){  //zan :1  ,  cai : 2
 
 		if(UserInfoManager.getInstance(ctx).getToken() == null){
-			Toast.makeText(ctx,"请登录.",Toast.LENGTH_SHORT).show();
+//			Toast.makeText(ctx,"请登录.",Toast.LENGTH_SHORT).show();
+			ctx.startActivity(new Intent(ctx,LoginActivity.class));
 		}
 
 		ApiService as = new ApiService(Api.API_ZAN);
@@ -356,7 +360,7 @@ public class NewsAdapterNew extends BaseAdapter {
 		as.setPostParams(Keys.ARTICLE_ID,newsList.get(currentPostion).getId());
 		as.setPostParams(Keys.CLICK_TYPE,1 + "");
 		as.setPostParams(Keys.CLICK_VALUE,type + "");
-		as.setPostParams(Keys.ARTICLE_TYPE,"text");
+		as.setPostParams(Keys.ARTICLE_TYPE,newsList.get(currentPostion).getType());
 		as.execute(new ApiService.OnServiceListener() {
 
 			@Override

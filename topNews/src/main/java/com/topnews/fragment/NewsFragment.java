@@ -2,16 +2,13 @@ package com.topnews.fragment;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.Text;
-
 import com.topnews.CityListActivity;
-import com.topnews.DetailsActivity;
+import com.topnews.NewsDetailActivity;
 import com.topnews.R;
 import com.topnews.adapter.NewsAdapter;
 import com.topnews.bean.NewsEntity;
 import com.topnews.tool.Constants;
 import com.topnews.view.HeadListView;
-import com.topnews.view.TopToastView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -131,7 +127,7 @@ public class NewsFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						Intent intent = new Intent(activity, DetailsActivity.class);
+						Intent intent = new Intent(activity, NewsDetailActivity.class);
 						if(channel_id == Constants.CHANNEL_CITY){
 							if(position != 0){
 								intent.putExtra("news", mAdapter.getItem(position - 1));

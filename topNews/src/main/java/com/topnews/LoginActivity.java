@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
 						String token = data.getString(Keys.TOKEN);
 
 						UserInfoManager.getInstance(LoginActivity.this).saveUserInfo(mobile,fullName,role,token);
-						startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//						startActivity(new Intent(LoginActivity.this,MainActivityNew.class));
 						finish();
 					}else{
 						btnLogin.setProgress(-1);

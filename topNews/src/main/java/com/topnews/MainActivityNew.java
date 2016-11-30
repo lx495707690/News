@@ -1,6 +1,5 @@
 package com.topnews;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -62,7 +61,7 @@ public class MainActivityNew extends FragmentActivity implements BottomNavigatio
     private void initFragment(Bundle save) {
         fragmentManager = getSupportFragmentManager();
         if(save == null) {
-            homeFragment = HomeFragment.newInstance();
+            homeFragment    = HomeFragment.newInstance();
             messageFragment = MessageFragment.newInstance();
             settingFragment = SettingFragment.newInstance();
             mContent = homeFragment;
@@ -71,7 +70,7 @@ public class MainActivityNew extends FragmentActivity implements BottomNavigatio
                     .commit();
         }else {
 
-            homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(HOMEFRAGMENT);
+            homeFragment    = (HomeFragment) fragmentManager.findFragmentByTag(HOMEFRAGMENT);
             messageFragment = (MessageFragment) fragmentManager.findFragmentByTag(MESSAGEFRAGMENT);
             settingFragment = (SettingFragment) fragmentManager.findFragmentByTag(SETTINGFRAGMENT);
 

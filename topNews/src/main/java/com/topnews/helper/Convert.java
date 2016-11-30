@@ -1,5 +1,6 @@
 package com.topnews.helper;
 
+import com.topnews.bean.CommentEntity;
 import com.topnews.bean.NewsEntityNew;
 
 import org.json.JSONArray;
@@ -14,6 +15,77 @@ import java.util.ArrayList;
 
 public class Convert {
 
+    public static ArrayList<CommentEntity> convertToCommentList(JSONArray data){
+        ArrayList<CommentEntity> commentList = new ArrayList<CommentEntity>();
+
+        for (int i = 0; i < data.length(); i ++){
+            try {
+                JSONObject commentJson = data.getJSONObject(i);
+                CommentEntity comment = new CommentEntity();
+
+                if(!commentJson.isNull(Keys.ID)){
+                    comment.setId(commentJson.getString(Keys.ID));
+                }
+
+                if(!commentJson.isNull(Keys.CONTENT)){
+                    comment.setContent(commentJson.getString(Keys.CONTENT));
+                }
+
+                if(!commentJson.isNull(Keys.IS_GOOD)){
+                    comment.setIsGood(commentJson.getInt(Keys.IS_GOOD));
+                }
+
+                if(!commentJson.isNull(Keys.CREATED_AT)){
+                    comment.setDate(commentJson.getString(Keys.CREATED_AT));
+                }
+
+                if(!commentJson.isNull(Keys.STATUS)){
+                    comment.setStatus(commentJson.getString(Keys.STATUS));
+                }
+
+                commentList.add(comment);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return commentList;
+    }
+
+    public static CommentEntity convertToComment(JSONObject data){
+
+            try {
+
+                CommentEntity comment = new CommentEntity();
+
+                if(!data.isNull(Keys.ID)){
+                    comment.setId(data.getString(Keys.ID));
+                }
+
+                if(!data.isNull(Keys.CONTENT)){
+                    comment.setContent(data.getString(Keys.CONTENT));
+                }
+
+                if(!data.isNull(Keys.IS_GOOD)){
+                    comment.setIsGood(data.getInt(Keys.IS_GOOD));
+                }
+
+                if(!data.isNull(Keys.CREATED_AT)){
+                    comment.setDate(data.getString(Keys.CREATED_AT));
+                }
+
+                if(!data.isNull(Keys.STATUS)){
+                    comment.setStatus(data.getString(Keys.STATUS));
+                }
+
+                return comment;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        return null;
+    }
+
     public static ArrayList<NewsEntityNew> convertToNewsList(JSONArray data,String newsType){
         ArrayList<NewsEntityNew> newsList = new ArrayList<NewsEntityNew>();
 
@@ -22,12 +94,7 @@ public class Convert {
                 JSONObject newsJson = data.getJSONObject(i);
                 NewsEntityNew news = new NewsEntityNew();
 
-                if(newsType.equals(Constants.NEWS_TYPE_TEXT)){
-                    news.setType("text");
-                }else{
-                    news.setType("image");
-                }
-
+                news.setType(newsType);
 
                 if(!newsJson.isNull(Keys.ID)){
                     news.setId(newsJson.getString(Keys.ID));
@@ -61,23 +128,19 @@ public class Convert {
                     news.setCommentNum(newsJson.getInt(Keys.COMMENT_NUM));
                 }
 
-//                if(!newsJson.isNull(Keys.NEWS_TYPE)){
-                if(!newsJson.isNull(Keys.TITLE)){
-//                    news.setType(newsJson.getString(Keys.NEWS_TYPE));
+                if(newsType.equals(Constants.NEWS_TYPE_IMAGE)){
 
-//                    if(news.getType().equals(Constants.NEWS_TYPE_IMAGE)){
-                        //set image list
-                        ArrayList<String> imageUrls = new ArrayList<String>();
-                        JSONArray urls = new JSONArray(news.getBody());
-                        for (int j = 0; j < urls.length(); j++){
-                            imageUrls.add("http://top-news.oss-cn-shanghai.aliyuncs.com/" + urls.getString(j));
-                        }
-                        news.setImageUrls(imageUrls);
+                    //set image list
+                    ArrayList<String> imageUrls = new ArrayList<String>();
+                    JSONArray urls = new JSONArray(news.getBody());
+                    for (int j = 0; j < urls.length(); j++){
+                        imageUrls.add("http://top-news.oss-cn-shanghai.aliyuncs.com/" + urls.getString(j));
+                    }
+                    news.setImageUrls(imageUrls);
 
-                        if(imageUrls.size() == 1){
-                            news.setLarge(true);
-                        }
-//                    }
+                    if(imageUrls.size() == 1){
+                        news.setLarge(true);
+                    }
                 }
 
                 newsList.add(news);

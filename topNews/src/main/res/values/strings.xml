@@ -76,8 +76,11 @@
     <string name="news_zan">赞</string>
     <string name="news_cai">踩</string>
     <string name="news_comment">评论</string>
+    <string name="news_send_comment">发送评论</string>
     <string name="news_home">首页</string>
     <string name="news_message">消息</string>
     <string name="news_setting">设置</string>
+    <string name="news_detail">详情</string>
+    <string name="news_comment_hint">期待您的评论</string>
 
 </resources>

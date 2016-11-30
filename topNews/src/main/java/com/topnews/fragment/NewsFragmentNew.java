@@ -1,5 +1,6 @@
 package com.topnews.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 
+import com.topnews.NewsDetailActivity;
 import com.topnews.R;
 import com.topnews.adapter.NewsAdapterNew;
 import com.topnews.bean.NewsEntityNew;
@@ -63,28 +66,17 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 	}
 
 	private void initView(){
-
-		mLoadingView = (LoadingView) v.findViewById(R.id.loading_view);
-
-//		boolean isLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-		boolean isLollipop = false;
-		int marvel_1 = isLollipop ? R.drawable.marvel_1_lollipop : R.drawable.marvel_1;
-		int marvel_2 = isLollipop ? R.drawable.marvel_2_lollipop : R.drawable.marvel_2;
-		int marvel_3 = isLollipop ? R.drawable.marvel_3_lollipop : R.drawable.marvel_3;
-		int marvel_4 = isLollipop ? R.drawable.marvel_4_lollipop : R.drawable.marvel_4;
-		mLoadingView.addAnimation(Color.parseColor("#FFD200"), marvel_1,
-				LoadingView.FROM_LEFT);
-		mLoadingView.addAnimation(Color.parseColor("#2F5DA9"), marvel_2,
-				LoadingView.FROM_TOP);
-		mLoadingView.addAnimation(Color.parseColor("#FF4218"), marvel_3,
-				LoadingView.FROM_RIGHT);
-		mLoadingView.addAnimation(Color.parseColor("#C7E7FB"), marvel_4,
-				LoadingView.FROM_BOTTOM);
-
-		mLoadingView.startAnimation();
+		initLoadingView();
 
 		lvNews = (NewsListView) v.findViewById(R.id.lvNews);
 		lvNews.setOnScrollListener(this);
+
+		lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				goToDetail(position);
+			}
+		});
 
 		footer = LayoutInflater.from(getActivity()).inflate(R.layout.load_more,null);
 
@@ -95,6 +87,16 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 				refreshNews();
 			}
 		});
+	}
+
+	private void goToDetail(int position){
+		if(position >= 0){
+			NewsEntityNew newsEntityNew = newsList.get(position);
+			Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+			intent.putExtra(Keys.NEWS, newsEntityNew);
+			startActivity(intent);
+			getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		}
 	}
 
 	private void refreshNews(){
@@ -192,5 +194,25 @@ public class NewsFragmentNew extends Fragment implements AbsListView.OnScrollLis
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+	}
+
+	private void initLoadingView(){
+		mLoadingView = (LoadingView) v.findViewById(R.id.loading_view);
+
+		boolean isLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+		int marvel_1 = isLollipop ? R.drawable.marvel_1_lollipop : R.drawable.marvel_1;
+		int marvel_2 = isLollipop ? R.drawable.marvel_2_lollipop : R.drawable.marvel_2;
+		int marvel_3 = isLollipop ? R.drawable.marvel_3_lollipop : R.drawable.marvel_3;
+		int marvel_4 = isLollipop ? R.drawable.marvel_4_lollipop : R.drawable.marvel_4;
+		mLoadingView.addAnimation(Color.parseColor("#FFD200"), marvel_1,
+				LoadingView.FROM_LEFT);
+		mLoadingView.addAnimation(Color.parseColor("#2F5DA9"), marvel_2,
+				LoadingView.FROM_TOP);
+		mLoadingView.addAnimation(Color.parseColor("#FF4218"), marvel_3,
+				LoadingView.FROM_RIGHT);
+		mLoadingView.addAnimation(Color.parseColor("#C7E7FB"), marvel_4,
+				LoadingView.FROM_BOTTOM);
+
+		mLoadingView.startAnimation();
 	}
 }

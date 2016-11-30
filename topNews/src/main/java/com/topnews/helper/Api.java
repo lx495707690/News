@@ -12,4 +12,7 @@ public class Api {
 	public static final String API_IMAGE_NEWS = BASE_URL +"ArticlePic/Listing";
 
 	public static final String API_ZAN = BASE_URL +"click/add";
+
+	public static final String API_COMMENT_LIST = BASE_URL +"comment/listing";
+	public static final String API_COMMENT_ADD  = BASE_URL +"comment/add";
 }

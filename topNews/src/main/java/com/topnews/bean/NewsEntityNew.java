@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class NewsEntityNew implements Serializable {
 
+	private static final long serialVersionUID = 8263672832998693268L;
+
 	private String id;
 	private String title;
 	private String body;
