@@ -97,15 +97,25 @@
                     style="@style/item_image" />
             </LinearLayout>
 
-            <ImageView
+            <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/large_image"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6.0dip"
                 android:background="@drawable/image_holder_listpage"
-                android:paddingRight="7.0dip"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 />
+
+            <!--<ImageView-->
+                <!--android:id="@+id/large_image"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="6.0dip"-->
+                <!--android:background="@drawable/image_holder_listpage"-->
+                <!--android:paddingRight="7.0dip"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
 
             <LinearLayout
                 android:id="@+id/info_layout"

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 
 import com.topnews.NewsDetailActivity;
 import com.topnews.R;
+import com.topnews.TestActivity;
 import com.topnews.adapter.NewsAdapterNew;
 import com.topnews.bean.NewsEntityNew;
 import com.topnews.helper.Api;

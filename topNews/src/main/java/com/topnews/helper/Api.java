@@ -13,6 +13,8 @@ public class Api {
 
 	public static final String API_ZAN = BASE_URL +"click/add";
 
+	public static final String API_COMMENT_ZAN = BASE_URL +"comment/click";
+
 	public static final String API_COMMENT_LIST = BASE_URL +"comment/listing";
 	public static final String API_COMMENT_ADD  = BASE_URL +"comment/add";
 }

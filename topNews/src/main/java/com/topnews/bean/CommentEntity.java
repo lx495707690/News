@@ -13,6 +13,8 @@ public class CommentEntity implements Serializable {
 	private int isGood;
 	private String date;
 	private String status;
+	private int Zan = 0;
+	private int Cai = 0;
 
 	public String getId() {
 		return id;
@@ -52,6 +54,22 @@ public class CommentEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getZan() {
+		return Zan;
+	}
+
+	public void setZan(int zan) {
+		Zan = zan;
+	}
+
+	public int getCai() {
+		return Cai;
+	}
+
+	public void setCai(int cai) {
+		Cai = cai;
 	}
 }
 

@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.topnews.LoginActivity;
 import com.topnews.MainActivityNew;
 import com.topnews.R;
+import com.topnews.TestActivity;
 import com.topnews.bean.NewsEntityNew;
 import com.topnews.helper.Api;
 import com.topnews.helper.ApiService;
@@ -34,10 +35,19 @@ import com.topnews.tool.Options;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class NewsAdapterNew extends BaseAdapter {
 
@@ -47,6 +57,7 @@ public class NewsAdapterNew extends BaseAdapter {
 	/** 弹出的更多选择框  */
 	private PopupWindow popupWindow;
 	DisplayImageOptions options;
+	private ImageOptions imageOptions;
 
 	private int currentPostion;
 
@@ -55,6 +66,17 @@ public class NewsAdapterNew extends BaseAdapter {
 		this.newsList = newsList;
 		options = Options.getListOptions();
 		initPopWindow();
+
+		imageOptions = new ImageOptions.Builder()
+//				.setRadius(DensityUtil.dip2px(5))
+				// 如果ImageView的大小不是定义为wrap_content, 不要crop.
+//				.setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
+				// 加载中或错误图片的ScaleType
+				//.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+				.setLoadingDrawableId(R.drawable.ic_launcher)
+				.setFailureDrawableId(R.drawable.ic_launcher)
+				.setUseMemCache(true)
+				.build();
 	}
 	
 	@Override
@@ -101,7 +123,7 @@ public class NewsAdapterNew extends BaseAdapter {
 			mHolder.item_image_0 = (ImageView)view.findViewById(R.id.item_image_0);
 			mHolder.item_image_1 = (ImageView)view.findViewById(R.id.item_image_1);
 			mHolder.item_image_2 = (ImageView)view.findViewById(R.id.item_image_2);
-			mHolder.large_image = (ImageView)view.findViewById(R.id.large_image);
+			mHolder.large_image  = (GifImageView)view.findViewById(R.id.large_image);
 			mHolder.popicon = (ImageView)view.findViewById(R.id.popicon);
 			mHolder.comment_content = (TextView)view.findViewById(R.id.comment_content);
 			mHolder.right_padding_view = (View)view.findViewById(R.id.right_padding_view);
@@ -140,9 +162,13 @@ public class NewsAdapterNew extends BaseAdapter {
 				if(news.isLarge()){
 					mHolder.large_image.setVisibility(View.VISIBLE);
 					mHolder.right_image.setVisibility(View.GONE);
-					imageLoader.displayImage(imgUrlList.get(0), mHolder.large_image, options);
+//					imageLoader.displayImage(imgUrlList.get(0), mHolder.large_image, options);
 //					mHolder.popicon.setVisibility(View.GONE);
 //					mHolder.comment_count.setVisibility(View.GONE);
+
+					//show gif
+					showGif(mHolder.large_image,imgUrlList.get(0));
+
 					mHolder.right_padding_view.setVisibility(View.GONE);
 				}else{
 					mHolder.large_image.setVisibility(View.GONE);
@@ -231,7 +257,7 @@ public class NewsAdapterNew extends BaseAdapter {
 		ImageView item_image_1;
 		ImageView item_image_2;
 		//大图的图片的话布局
-		ImageView large_image;
+		GifImageView large_image;
 		//pop按钮
 		ImageView popicon;
 		//评论布局
@@ -358,8 +384,8 @@ public class NewsAdapterNew extends BaseAdapter {
 		as.setMethod(com.topnews.helper.Constants.POST);
 		as.setToken(UserInfoManager.getInstance(ctx).getToken());
 		as.setPostParams(Keys.ARTICLE_ID,newsList.get(currentPostion).getId());
-		as.setPostParams(Keys.CLICK_TYPE,1 + "");
-		as.setPostParams(Keys.CLICK_VALUE,type + "");
+		as.setPostParams(Keys.CLICK_TYPE,type + "");
+		as.setPostParams(Keys.CLICK_VALUE,1 + "");
 		as.setPostParams(Keys.ARTICLE_TYPE,newsList.get(currentPostion).getType());
 		as.execute(new ApiService.OnServiceListener() {
 
@@ -388,6 +414,45 @@ public class NewsAdapterNew extends BaseAdapter {
 				// TODO Auto-generated method stub
 			}
 
+		});
+	}
+
+
+	private void showGif(final GifImageView gifView,String url){
+		x.image().loadFile(url,imageOptions, new Callback.CacheCallback<File>() {
+			@Override
+			public void onSuccess(File result) {
+
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+
+			}
+
+			@Override
+			public void onCancelled(CancelledException cex) {
+
+			}
+
+			@Override
+			public void onFinished() {
+
+			}
+
+			@Override
+			public boolean onCache(File result) {
+
+				GifDrawable gifFrom = null;
+				try {
+					gifFrom = new GifDrawable(result.getAbsolutePath());
+					gifView.setImageDrawable(gifFrom);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				return false;
+			}
 		});
 	}
 }

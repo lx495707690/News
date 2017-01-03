@@ -1,5 +1,7 @@
 package com.topnews;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
@@ -34,12 +36,15 @@ import com.topnews.tool.Options;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import io.saeid.fabloading.LoadingView;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class NewsDetailActivity extends BaseActivity implements AbsListView.OnScrollListener{
-
-	protected ImageLoader imageLoader = ImageLoader.getInstance();
 
 	private TextView title,tvTitle,tvContent,tvComment;
 	private EditText etComment;
@@ -52,7 +57,6 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 	private NewsEntityNew newsEntityNew;
 	private String newsTitle;
 	private String newsContent;
-	private ArrayList<String> imageUrls = new ArrayList<>();
 
 	private int page = 1;
 	private int visibleLastIndex;
@@ -64,12 +68,27 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 	private ArrayList<CommentEntity> commentList = new ArrayList<CommentEntity>();
 	private int commentNum = 0;
 
+	private ImageOptions imageOptions;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.details);
 		setNeedBackGesture(true);//设置需要手势监听
+
+		imageOptions = new ImageOptions.Builder()
+//				.setRadius(DensityUtil.dip2px(5))
+			// 如果ImageView的大小不是定义为wrap_content, 不要crop.
+//				.setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
+			// 加载中或错误图片的ScaleType
+			//.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+			.setLoadingDrawableId(R.drawable.ic_launcher)
+			.setFailureDrawableId(R.drawable.ic_launcher)
+			.setUseMemCache(true)
+
+			.build();
+
 		getData();
 		initView();
 		getComments();
@@ -80,10 +99,7 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 		newsEntityNew = (NewsEntityNew) getIntent().getSerializableExtra(Keys.NEWS);
 		newsTitle     = newsEntityNew.getTitle();
 		newsContent   = newsEntityNew.getBody();
-		imageUrls     = newsEntityNew.getImageUrls();
 	}
-
-
 
 	private void initView() {
 
@@ -108,15 +124,27 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 			ArrayList<String> imgUrlList = newsEntityNew.getImageUrls();
 			for (int i = 0; i < imgUrlList.size(); i++){
 
-				ImageView imageView = new ImageView(this);
+//				ImageView imageView = new ImageView(this);
+//				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//				params.setMargins(30,20,30,20);
+//				imageView.setLayoutParams(params);
+//				imageView.setImageResource(R.drawable.ic_launcher);
+//				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//
+//				imageLoader.displayImage(imgUrlList.get(i), imageView, Options.getListOptions());
+
+				GifImageView gifImageView = new GifImageView(this);
+
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				params.setMargins(30,20,30,20);
-				imageView.setLayoutParams(params);
-				imageView.setImageResource(R.drawable.ic_launcher);
-				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+				gifImageView.setLayoutParams(params);
+				gifImageView.setImageResource(R.drawable.ic_launcher);
+				gifImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+				gifImageView.setAdjustViewBounds(true);
 
-				imageLoader.displayImage(imgUrlList.get(i), imageView, Options.getListOptions());
-				llImage.addView(imageView);
+				llImage.addView(gifImageView);
+
+				showGif(gifImageView,imgUrlList.get(i));
 			}
 		}
 
@@ -163,6 +191,7 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 		as.setPostParams(Keys.ARTICLE_TYPE,newsEntityNew.getType());
 		as.setPostParams(Keys.CONTENT,etComment.getText().toString().trim());
 		as.setToken(UserInfoManager.getInstance(this).getToken());
+
 		as.execute(new ApiService.OnServiceListener() {
 
 			@Override
@@ -314,5 +343,43 @@ public class NewsDetailActivity extends BaseActivity implements AbsListView.OnSc
 				LoadingView.FROM_BOTTOM);
 
 		mLoadingView.startAnimation();
+	}
+
+	private void showGif(final GifImageView gifView,String url){
+		x.image().loadFile(url,imageOptions, new Callback.CacheCallback<File>() {
+			@Override
+			public void onSuccess(File result) {
+
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+
+			}
+
+			@Override
+			public void onCancelled(CancelledException cex) {
+
+			}
+
+			@Override
+			public void onFinished() {
+
+			}
+
+			@Override
+			public boolean onCache(File result) {
+
+				GifDrawable gifFrom = null;
+				try {
+					gifFrom = new GifDrawable(result.getAbsolutePath());
+					gifView.setImageDrawable(gifFrom);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				return false;
+			}
+		});
 	}
 }

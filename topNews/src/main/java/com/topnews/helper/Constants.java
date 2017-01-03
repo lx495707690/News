@@ -130,4 +130,7 @@ public class Constants {
 	public static String NEWS_TYPE_TEXT  = "text";
 	public static String NEWS_TYPE_IMAGE = "image";
 	public static String NEWS_TYPE_AD    = "ad";
+
+
+	public static String IMAGE_BASE_URL = "http://top-news.oss-cn-shanghai.aliyuncs.com/";
 }

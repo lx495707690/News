@@ -1,5 +1,6 @@
 package com.topnews.helper;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +25,12 @@ import android.net.Uri;
 import android.provider.Settings.Secure;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+import com.topnews.R;
 
 
 public class Helper {
@@ -463,5 +469,34 @@ public class Helper {
 	public static String escapeURL(String term) {
 		term = term.replace(" ", "%20");
 		return term;
+	}
+
+	public static void displayAvatar(Context context,String path, ImageView imgAvatar){
+
+		if(path != null){
+			Picasso.with(context)//
+					.load(new File(path))//
+					.placeholder(R.drawable.image_avatar)//
+					.error(R.drawable.image_avatar)//
+					.resize(100, 100)//
+					.centerInside()//
+					.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)//
+					.transform(new CircleTransform())
+					.into(imgAvatar);
+		}else{
+			Picasso.with(context)
+					.load(R.drawable.image_avatar)
+					.placeholder(R.drawable.image_avatar)//
+					.error(R.drawable.image_avatar)//
+					.resize(100, 100)//
+					.centerInside()//
+					.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)//
+					.transform(new CircleTransform())
+					.into(imgAvatar);
+		}
+	}
+
+	public static void loadImageNewNoCache(Context context, String url, ImageView imageView) {
+		Picasso.with(context).load(url).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new CircleTransform()).into(imageView);
 	}
 }

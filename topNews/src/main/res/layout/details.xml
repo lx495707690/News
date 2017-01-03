@@ -65,6 +65,7 @@
             android:layout_marginBottom="5dp"
             android:imeOptions="actionSend"
             android:singleLine="true"
+            android:textSize="15sp"
             />
 
     </LinearLayout>

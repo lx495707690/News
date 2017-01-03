@@ -85,8 +85,9 @@ public class LoginActivity extends Activity {
 						String fullName = data.getString(Keys.NAME);
 						String role = data.getString(Keys.ROLE);
 						String token = data.getString(Keys.TOKEN);
+						String avatar = data.getString(Keys.AVATAR);
 
-						UserInfoManager.getInstance(LoginActivity.this).saveUserInfo(mobile,fullName,role,token);
+						UserInfoManager.getInstance(LoginActivity.this).saveUserInfo(mobile,fullName,role,token,avatar);
 //						startActivity(new Intent(LoginActivity.this,MainActivityNew.class));
 						finish();
 					}else{

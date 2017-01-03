@@ -43,6 +43,14 @@ public class Convert {
                     comment.setStatus(commentJson.getString(Keys.STATUS));
                 }
 
+                if(!commentJson.isNull(Keys.CLICK_UP)){
+                    comment.setZan(commentJson.getInt(Keys.CLICK_UP));
+                }
+
+                if(!commentJson.isNull(Keys.CLICK_DOWN)){
+                    comment.setCai(commentJson.getInt(Keys.CLICK_DOWN));
+                }
+
                 commentList.add(comment);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -76,6 +84,14 @@ public class Convert {
 
                 if(!data.isNull(Keys.STATUS)){
                     comment.setStatus(data.getString(Keys.STATUS));
+                }
+
+                if(!data.isNull(Keys.CLICK_UP)){
+                    comment.setZan(data.getInt(Keys.CLICK_UP));
+                }
+
+                if(!data.isNull(Keys.CLICK_DOWN)){
+                    comment.setCai(data.getInt(Keys.CLICK_DOWN));
                 }
 
                 return comment;
@@ -134,7 +150,7 @@ public class Convert {
                     ArrayList<String> imageUrls = new ArrayList<String>();
                     JSONArray urls = new JSONArray(news.getBody());
                     for (int j = 0; j < urls.length(); j++){
-                        imageUrls.add("http://top-news.oss-cn-shanghai.aliyuncs.com/" + urls.getString(j));
+                        imageUrls.add(Constants.IMAGE_BASE_URL + urls.getString(j));
                     }
                     news.setImageUrls(imageUrls);
 

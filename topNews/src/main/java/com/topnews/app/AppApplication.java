@@ -2,6 +2,8 @@ package com.topnews.app;
 
 import java.io.File;
 
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.view.CropImageView;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -9,23 +11,47 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.topnews.db.SQLHelper;
+import com.topnews.helper.PicassoImageLoader;
 
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import org.xutils.x;
+
 public class AppApplication extends Application {
 	private static AppApplication mAppApplication;
 	private SQLHelper sqlHelper;
-	
+
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		initImageLoader(getApplicationContext());
 		mAppApplication = this;
+
+		x.Ext.init(this);
+
+		setImagePicker();
 	}
-	
+
+
+	private void setImagePicker(){
+
+		ImagePicker imagePicker = ImagePicker.getInstance();
+		imagePicker.setImageLoader(new PicassoImageLoader());   //设置图片加载器
+		imagePicker.setShowCamera(true);  //显示拍照按钮
+		imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+		imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+		imagePicker.setSelectLimit(1);    //选中数量限制
+		imagePicker.setStyle(CropImageView.Style.CIRCLE);  //裁剪框的形状
+		imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+		imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+		imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+		imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
+		imagePicker.setMultiMode(false);
+	}
+
 	/** 获取Application */
 	public static AppApplication getApp() {
 		return mAppApplication;

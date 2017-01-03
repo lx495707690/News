@@ -21,6 +21,7 @@ public class Keys {
 	public static final String CLICK_UP = "click_up";
 	public static final String CLICK_DOWN = "click_down";
 	public static final String COMMENT_NUM = "comment_num";
+	public static final String COMMENT_ID = "comment_id";
 	public static final String ARTICLE_ID = "article_id";
 	public static final String CLICK_TYPE = "click_type";
 	public static final String CLICK_VALUE = "click_value";
@@ -30,4 +31,6 @@ public class Keys {
 	public static final String NEWS = "news";
 	public static final String CONTENT = "content";
 	public static final String IS_GOOD = "is_good";
+	public static final String PHOTO = "photo";
+	public static final String AVATAR = "avatar";
 }

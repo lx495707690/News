@@ -7,6 +7,7 @@ import android.content.SharedPreferences.Editor;
 public class UserInfoManager {
 
 	static final String KEY_MOBILE = "mobile";
+	static final String KEY_AVATAR = "avatar";
 	static final String KEY_FULL_NAME = "full_name";
 	static final String KEY_ROLE = "role";
 	static final String KEY_TOKEN = "token";
@@ -32,17 +33,23 @@ public class UserInfoManager {
 		this.prefs = c.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 	}
 	
-	public void saveUserInfo(String mobile, String fullName, String role, String token){
+	public void saveUserInfo(String mobile, String fullName, String role, String token,String avatar){
 		Editor editor = this.prefs.edit();
 		editor.putString(KEY_MOBILE, mobile);
 		editor.putString(KEY_FULL_NAME, fullName);
 		editor.putString(KEY_ROLE, role);
 		editor.putString(KEY_TOKEN, token);
+		editor.putString(KEY_AVATAR, avatar);
 		editor.commit();
 	}
 
 	public String getToken(){
 		return this.prefs.getString(KEY_TOKEN, null);
+	}
+
+
+	public String getAvatar(){
+		return this.prefs.getString(KEY_AVATAR, null);
 	}
 
 	public void logout(){
